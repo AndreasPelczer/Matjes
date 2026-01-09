@@ -1,0 +1,29 @@
+[
+  {"code": "5001", "name": "Dämpfen", "kategorie": "Garmethode", "beschreibung": "Schonendes Garen im Wasserdampf. Wichtig für [Herzogin-Kartoffeln](1001).", "details": "Temperatur: 100°C. Erhält Vitamine."},
+  {"code": "5002", "name": "Montieren", "kategorie": "Technik", "beschreibung": "Das Aufschlagen von Saucen mit kalter [Butter](1010).", "details": "Sorgt für Glanz und Bindung."},
+  {"code": "5050", "name": "Mehligkochende Kartoffeln", "kategorie": "Warenkunde", "beschreibung": "Hoher Stärkegehalt. Ideal für Püree oder [Herzogin-Kartoffeln](1001).", "details": "Sorten: Adretta, Likaria."},
+  {"code": "5100", "name": "Matjes-Reifung", "kategorie": "Prozess", "beschreibung": "Natürliche Fermentation durch Enzyme. Siehe [Salzlake](5101).", "details": "Dauert ca. 5-7 Tage bei kühler Lagerung."},
+  {"code": "5101", "name": "Salzlake", "kategorie": "Grundlage", "beschreibung": "Mischung für die Konservierung von [Glückstädter Matjes](1005).", "details": "Konzentration: 5-8% Salzgehalt."}
+,
+  {
+    "code": "G-DUCH",
+    "name": "Herzogin-Kartoffeln",
+    "kategorie": "Kartoffelbeilagen",
+    "beschreibung": "GESCHICHTE:\nEntstanden im späten 18. Jahrhundert für den Adel.\n\nHERSTELLUNG (PAULI):\n1. [KARTOFFELN](10050) [KOCHEN](T-KOCH) und [ABDAMPFEN](T-ABD) lassen.\n2. [PASSIEREN](T-PASS), mit [BUTTER](10051) und [EIGELB](10052) montieren.\n3. [DRESSIEREN](T-DRESS) und bei 200°C [BACKEN](T-BACK).",
+    "details": "Lager-Check: [Kartoffeln](10050), [Butter](10051)"
+  },
+  {
+    "code": "T-KOCH",
+    "name": "Kochen",
+    "kategorie": "Küchentechnik",
+    "beschreibung": "Garen bei ca. 100°C.",
+    "details": "Wichtig für: [Herzogin-Kartoffeln](G-DUCH)"
+  },
+  {
+    "code": "T-ABD",
+    "name": "Abdampfen",
+    "kategorie": "Küchentechnik",
+    "beschreibung": "Restfeuchtigkeit entweichen lassen.",
+    "details": "Wichtig für: [Herzogin-Kartoffeln](G-DUCH)"
+  }
+]

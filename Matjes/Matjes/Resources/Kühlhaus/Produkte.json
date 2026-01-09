@@ -1,0 +1,46 @@
+[
+  {"id": "1001", "name": "Herzogin-Kartoffeln", "category": "Beilage", "dataSource": "Natur", "allergene": "C, G", "zusatzstoffe": "", "kcal": "185", "fett": "9g", "zucker": "1.2g", "zusatzInfos": {"Technik": "[Dämpfen](5001)", "Zutat": "[Kartoffeln](5050)"}, "rezept": {"portionen": "4", "komponenten": [{"name": "Kartoffeln", "menge": "1000", "einheit": "g"}, {"name": "Butter", "menge": "50", "einheit": "g"}]}},
+  {"id": "1005", "name": "Glückstädter Matjes", "category": "Fisch", "dataSource": "Hering", "allergene": "D", "zusatzstoffe": "", "kcal": "215", "fett": "15g", "zucker": "0g", "zusatzInfos": {"Verfahren": "[Matjes-Reifung](5100)"}, "rezept": {"portionen": "2", "komponenten": [{"name": "Matjes", "menge": "4", "einheit": "Filets"}]}},
+  {"id": "1010", "name": "Markenbutter", "category": "Molkerei", "dataSource": "Lieferant", "allergene": "G", "zusatzstoffe": "", "kcal": "741", "fett": "82g", "zucker": "0.6g", "zusatzInfos": {"Verwendung": "Zum [Montieren](5002) von Saucen."}, "rezept": {"portionen": "1", "komponenten": []}}
+,
+  {
+    "id": "10050",
+    "name": "Kartoffeln (festkochend)",
+    "kategorie": "Gemüse",
+    "typ": "Natur",
+    "beschreibung": "Mehlige oder festkochende Kartoffeln für Püree und Herzogin.",
+    "metadata": {
+      "allergene": "Keine",
+      "zusatzstoffe": "Keine",
+      "kcal_100g": "77",
+      "fett": "0.1",
+      "zucker": "0.8"
+    }
+  },
+  {
+    "id": "10051",
+    "name": "Butter",
+    "kategorie": "Molkerei",
+    "typ": "Natur",
+    "beschreibung": "Süßrahmbutter für feine Saucen.",
+    "metadata": {
+      "allergene": "G",
+      "zusatzstoffe": "Keine",
+      "kcal_100g": "717",
+      "fett": "81",
+      "zucker": "0.6"
+    }
+  },
+  {
+    "id": "10052",
+    "name": "Eigelb (frisch)",
+    "kategorie": "Molkerei/Eier",
+    "typ": "Natur",
+    "beschreibung": "Frisches Eigelb zur Bindung und Bräunung von Massen.",
+    "metadata": {
+      "allergene": "C",
+      "zusatzstoffe": "Keine",
+      "kcal_100g": "322"
+    }
+  }
+]
