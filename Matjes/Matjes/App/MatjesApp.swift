@@ -1,10 +1,3 @@
-//
-//  MatjesApp.swift
-//  Matjes
-//
-//  Created by Senior-Entwickler (Mentor) am 08.01.26.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -12,15 +5,20 @@ import SwiftData
 struct MatjesApp: App {
     
     var sharedModelContainer: ModelContainer = {
-        // HIER: Du musst BEIDE Modelle angeben, damit SwiftData die Tabellen erstellt
         let schema = Schema([
             Product.self,
-            LexikonEntry.self  // <-- DAS FEHLTE!
+            LexikonEntry.self
         ])
         
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let modelConfiguration = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: false,
+            // Wichtig: Hier steht dein Container-Name aus Xcode
+            cloudKitDatabase: .private("iCloud.com.deinname.Matjes")
+        )
 
         do {
+            // Hier sagen wir SwiftData: Benutze genau diese Cloud-Konfiguration!
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
             fatalError("🚨 ModelContainer-Fehler: \(error)")
@@ -30,18 +28,16 @@ struct MatjesApp: App {
     var body: some Scene {
         WindowGroup {
             MainScannerView(modelContext: sharedModelContainer.mainContext)
-                .modelContainer(sharedModelContainer)
-                .onAppear {
+                .modelContainer(sharedModelContainer)             .onAppear {
                     Task { @MainActor in
                         let context = sharedModelContainer.mainContext
                         
-                        // 1. Importieren (Der Allesfresser-Import)
+                        // Importiert die JSON-Daten beim ersten Start
                         GagaImporter.importJSON(into: context)
                         
-                        // 2. Speichern
                         do {
                             try context.save()
-                            print("✅ Alles im Kasten: 1400 Produkte sind startklar.")
+                            print("✅ Cloud-Sync aktiv: Produkte & Lexikon geladen.")
                         } catch {
                             print("🚨 Fehler beim Sichern: \(error)")
                         }

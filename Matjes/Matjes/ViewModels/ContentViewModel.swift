@@ -16,6 +16,8 @@ class ContentViewModel: ObservableObject {
     @Published var selectedSource: String = "Alle"
     @Published var dynamicCategories: [String] = []
 
+    
+    
     private var modelContext: ModelContext
     
     init(modelContext: ModelContext) {

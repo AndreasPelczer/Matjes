@@ -4,101 +4,109 @@ import SwiftData
 @MainActor
 class GagaImporter {
     
-    // MARK: - HAUPTFUNKTION (Der Zündschlüssel)
     static func importJSON(into context: ModelContext) {
-        // Zuerst deine bewährten Produkte laden
-        importProdukte(into: context)
+        // 1. RADIKALKUR: Erst alles löschen
+        try? context.delete(model: Product.self)
+        try? context.delete(model: LexikonEntry.self)
         
-        // Danach das Fachwissen aus dem Hering-Lexikon laden
+        // 2. Kurz zwischenspeichern, um Platz zu schaffen
+        try? context.save()
+        
+        print("🧹 Speicher geleert. Starte Neu-Import für GASTRO-GRID...")
+        
+        // 3. Jetzt die Funktionen aufrufen (die jetzt im Scope sind!)
+        importProdukte(into: context)
         importLexikon(into: context)
+        
+        // 4. Finales Speichern
+        do {
+            try context.save()
+            print("🚀 GASTRO-GRID OMNI: Daten erfolgreich importiert!")
+        } catch {
+            print("🚨 Fehler beim finalen Speichern: \(error)")
+        }
     }
     
-    // MARK: - 1. PRODUKT-IMPORT (Dein funktionierender Code)
+    // MARK: - Private Import-Logik
+    
     private static func importProdukte(into context: ModelContext) {
-        // Tabula Rasa: Wir machen das Lager einmal leer
-        try? context.delete(model: Product.self)
-        
         guard let url = Bundle.main.url(forResource: "Produkte", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {
-            print("🚨 Fehler: Produkte.json nicht gefunden")
+            print("🚨 KRITISCH: Produkte.json nicht gefunden!")
             return
         }
         
         do {
-            let rawList = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] ?? []
+            let decoder = JSONDecoder()
+            let decodedProducts = try decoder.decode([JSONProduct].self, from: data)
             
-            for entry in rawList {
-                let id = entry["id"] as? String ?? "000"
-                let name = entry["name"] as? String ?? "Unbekannt"
-                let cat = entry["kategorie"] as? String ?? "Allgemein"
-                let typ = entry["typ"] as? String ?? "Lieferant"
+            for jsonP in decodedProducts {
+                let p = Product(
+                    id: jsonP.id,
+                    name: jsonP.name,
+                    category: jsonP.kategorie,
+                    dataSource: jsonP.typ
+                )
+                p.beschreibung = jsonP.beschreibung
                 
-                let p = Product(id: id, name: name, category: cat, dataSource: typ)
-                p.beschreibung = entry["beschreibung"] as? String ?? ""
+                if let meta = jsonP.metadata {
+                    p.allergene = meta.allergene
+                    p.zusatzstoffe = meta.zusatzstoffe
+                    p.kcal = meta.kcal_100g
+                    p.fett = meta.fett
+                    p.zucker = meta.zucker
+                }
                 
-                if let meta = entry["metadata"] as? [String: String] {
-                    p.allergene = meta["allergene"] ?? ""
-                    p.zusatzstoffe = meta["zusatzstoffe"] ?? ""
-                    p.kcal = meta["kcal_100g"] ?? ""
-                    p.fett = meta["fett"] ?? ""
-                    p.zucker = meta["zucker"] ?? ""
-                    
-                    for (key, value) in meta {
-                        let bekannteKeys = ["allergene", "zusatzstoffe", "kcal_100g", "fett", "zucker"]
-                        if !bekannteKeys.contains(key) {
-                            p.zusatzInfos[key.capitalized] = value
-                        }
+                if let jsonRecipe = jsonP.rezept {
+                    let newRecipe = Recipe(
+                        portionen: jsonRecipe.portionen,
+                        algorithmus: jsonRecipe.algorithmus
+                    )
+                    for jsonIng in jsonRecipe.komponenten {
+                        let ingredient = Ingredient(
+                            name: jsonIng.name,
+                            menge: jsonIng.menge,
+                            einheit: jsonIng.einheit
+                        )
+                        ingredient.recipe = newRecipe
                     }
+                    p.rezept = newRecipe
                 }
                 context.insert(p)
             }
-            try context.save()
-            print("✅ Import fertig: \(rawList.count) Produkte geladen.")
+            print("✅ \(decodedProducts.count) Produkte inklusive Allergene & Rezepte geladen.")
         } catch {
-            print("🚨 Fehler beim Produkt-Import: \(error)")
+            print("🚨 PARSE-FEHLER in Produkte.json: \(error)")
         }
     }
     
-    // MARK: - 2. LEXIKON-IMPORT (Neu für Hering Fachkunde)
     private static func importLexikon(into context: ModelContext) {
-        // Wir räumen das Lexikon einmal auf, damit keine Dubletten entstehen
-        try? context.delete(model: LexikonEntry.self)
-        
-        // Wir suchen die Lexikon.json im Projekt
         guard let url = Bundle.main.url(forResource: "Lexikon", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {
-            print("📚 Info: Lexikon.json noch nicht im Projekt - überspringe Fachkunde.")
+            print("🚨 KRITISCH: Lexikon.json nicht gefunden!")
             return
         }
         
         do {
-            // Wir laden das Lexikon-JSON
-            let rawLexikon = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] ?? []
-            
-            for entry in rawLexikon {
-                            // 1. Daten aus dem JSON ziehen
-                            let code = entry["code"] as? String ?? "???"
-                            let name = entry["name"] as? String ?? "Unbenannt"
-                            let kategorie = entry["kategorie"] as? String ?? "Fachkunde" // Kategorie nach oben
-                            let beschreibung = entry["beschreibung"] as? String ?? ""
-                            let details = entry["details"] as? String ?? "" // NEU: Das Details-Feld
-                            
-                            // 2. Den Eintrag erstellen (REIHENFOLGE BEACHTEN!)
-                            let newEntry = LexikonEntry(
-                                code: code,
-                                name: name,
-                                kategorie: kategorie,      // Kategorie kommt ZUERST
-                                beschreibung: beschreibung, // Dann Beschreibung
-                                details: details           // Und zum Schluss Details
-                            )
-                            
-                            context.insert(newEntry)
-                        }
-            
-            try context.save()
-            print("📚 Hering-Lexikon: \(rawLexikon.count) Einträge erfolgreich importiert.")
+            let raw = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] ?? []
+            for e in raw {
+                let code = (e["code"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+                let name = (e["name"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+                
+                if name.isEmpty || code.isEmpty { continue }
+
+                let entry = LexikonEntry(
+                    code: code,
+                    name: name,
+                    kategorie: e["kategorie"] as? String ?? "Fachbuch",
+                    beschreibung: e["beschreibung"] as? String ?? "",
+                    details: e["details"] as? String ?? ""
+                )
+                context.insert(entry)
+            }
+            print("📚 BASIS HERING: \(raw.count) Einträge geladen.")
         } catch {
-            print("🚨 Fehler beim Lexikon-Import: \(error)")
+            print("🚨 PARSE-FEHLER im Lexikon: \(error)")
         }
     }
-}
+} // <--- Diese Klammer schließt die Klasse GagaImporter ab.
