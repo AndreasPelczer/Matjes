@@ -1,3 +1,55 @@
+
+# 🐟 GASTRO-GRID OMNI
+### Professionelles Warenkunde- & Logistik-Netzwerk für die Gastronomie
+
+**Entwickler:** Andreas Pelczer  
+**Status:** Version 1.1 (Edit-Safe & Interlinked)  
+**Plattform:** iOS / macOS (SwiftData & CloudKit)
+
+---
+
+## 🚀 Highlights des heutigen Updates
+
+Das System wurde von einer statischen Datenbank zu einem **interaktiven Wissensnetzwerk** transformiert.
+
+### 🧠 Intelligente Vernetzung (Smart-Linking)
+* **Cross-Navigation:** Automatische Erkennung von Zusammenhängen zwischen Lagerartikeln und Küchenlexikon. Ein Klick wechselt zwischen Warenkunde und Logistikdaten.
+* **In-Text-Hyperlinks:** Unterstützung von Markdown-Verknüpfungen innerhalb von Beschreibungen. (Beispiel: Verlinkung von Rohwaren in Rezepturen von Beilagen/Garnituren).
+
+### 🔍 Deep-Search Engine (Volltextsuche)
+* **Volltext-Index:** Durchsucht Namen, Kategorien und Beschreibungen simultan.
+* **Fehlertoleranz:** Suchalgorithmus ignoriert Diakritika (Akzente) und Case-Sensitivity.
+* **Visual Warning System:** Direkte Anzeige von Allergen- (Rot) und Zusatzstoff-Warnungen (Gelb) in der Suchergebnisliste.
+
+### 🛡️ Datensicherheit & Edit-Mode
+* **Persistenter Edit-Mode:** Manuelle Korrekturen (z.B. Grammatik, spezifische Küchenhinweise) werden direkt in der App vorgenommen und dauerhaft in SwiftData gespeichert.
+* **Smart-Importer:** Einzigartiger Import-Schutz. Neue Daten aus JSON-Quellen werden nur bei unbekannten IDs hinzugefügt ("Upsert"-Logik), wodurch manuelle Änderungen vor dem Überschreiben geschützt sind.
+
+---
+
+## 🛠 Technische Struktur
+
+* **Frameworks:** SwiftUI, SwiftData (Persistence), CloudKit (Sync).
+* **Daten-Architektur:**
+    * `Product`: Lagerdaten, Allergene, Nährwerte, Bestandsfelder.
+    * `LexikonEntry`: Kulinarisches Fachwissen, Techniken, Warenkunde.
+* **Navigation:** `NavigationSplitView` für optimale Nutzung auf iPad und Mac.
+
+---
+
+## ❄️ Ausblick: Das "Kühlhaus-Modul" (In Arbeit)
+Das Fundament für die Bestandsverwaltung ist gelegt. Kommende Features:
+* **Frost-Button:** Globaler Zugriff auf aktuelle Lagerbestände direkt in der Toolbar.
+* **Quick-Stock:** Schnelle Bestandsaufnahme (KG, Kisten, Portionsbeutel) direkt in der Detailansicht.
+* **Inventory-Sync:** Echtzeit-Abgleich der Vorräte über alle Endgeräte.
+
+---
+*Dokumentation generiert mit Unterstützung von Gemini AI.*
+
+
+
+
+
 # 🐟 Matjes App
 
 ![Swift](https://img.shields.io/badge/Swift-5.10-orange.svg)
