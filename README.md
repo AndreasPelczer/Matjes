@@ -1,5 +1,5 @@
 
-# 🐟 GASTRO-GRID OMNI
+# 🐟 (Matjes) Teil von GASTRO-GRID OMNI
 ### Professionelles Warenkunde- & Logistik-Netzwerk für die Gastronomie
 
 **Entwickler:** Andreas Pelczer  
