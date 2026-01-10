@@ -1,5 +1,15 @@
 [
     {
+        "id": "10051",
+        "name": "mehligen Kartoffeln",
+        "kategorie": "Gemüse",
+        "typ": "Lager",
+        "beschreibung": "Stärkereiche Speisekartoffeln, ideal für Püree, Klöße und Herzogin-Kartoffeln. Zerfallen leicht beim Kochen.",
+        "allergene": "",
+        "zusatzstoffe": ""
+      }
+    ,
+    {
         "id": "10050",
         "name": "Kartoffeln (fest)",
         "kategorie": "Gemüse",
@@ -14008,25 +14018,6 @@
       }
     },
     {
-      "id": "91095",
-      "name": "Salzkartoffeln",
-      "kategorie": "Beilagen",
-      "typ": "Natur",
-      "beschreibung": "Marke: Bankett/Eigen | Packung: Nach Rezeptur herstellen und anrichten.",
-      "ableitungen": [],
-      "details": {
-        "herkunft": "Unbekannt",
-        "saison": "Ganzjährig"
-      },
-      "metadata": {
-        "allergene": "",
-        "zusatzstoffe": "",
-        "kcal_100g": "",
-        "fett": "",
-        "zucker": ""
-      }
-    },
-    {
       "id": "91098",
       "name": "Semmelknödel",
       "kategorie": "Beilagen",
@@ -15869,5 +15860,24 @@
         "zucker": ""
       }
     }
-  ]
+    ,
+    {
+        "id": "PROD-MUELLERIN",
+        "name": "Müllerin Art",
+        "kategorie": "Fertiggerichte",
+        "typ": "Lager",
+        "beschreibung": "Vorbereitete Fischmischung für Müllerin Art. Enthält meliertes Filet.",
+        "allergene": "a, d, g",
+        "zusatzstoffe": "1"
+      },
+      {
+        "id": "PROD-COLBERT",
+        "name": "Colbert",
+        "kategorie": "Saucen & Butter",
+        "typ": "Lager",
+        "beschreibung": "Colbert-Butter-Mischung (tiefgekühlt), servierfertig portioniert.",
+        "allergene": "g",
+        "zusatzstoffe": "2"
+      }
+    ]
 

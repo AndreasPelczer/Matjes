@@ -5,6 +5,7 @@ struct AddEntryView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
+    // Steuerungs-Variablen
     @State private var entryType: String = "Produkt"
     
     // Gemeinsame Felder
@@ -27,11 +28,8 @@ struct AddEntryView: View {
                 }
                 
                 Section("Basis-Infos") {
-                    // Beispieltexte als graue Platzhalter hinzugefügt
                     TextField("z. B. Bio-Zitrone oder Räucherlachs", text: $name)
-                    
                     TextField(entryType == "Produkt" ? "z. B. Art-Nr. 1005" : "z. B. E-300 oder T-KOCH", text: $idOrCode)
-                    
                     TextField("z. B. Obst, Fisch oder Garmethode", text: $category)
                 }
                 
@@ -45,21 +43,15 @@ struct AddEntryView: View {
                     }
                     
                     TextEditor(text: $description)
-                        .frame(minHeight: 100)
+                        .frame(minHeight: 150)
                         .overlay(alignment: .topLeading) {
                             if description.isEmpty {
-                                // Hier ist der graue Text für das große Beschreibungsfeld
-                                Text("z. B. Herkunft, Reifegrad oder wichtige Verarbeitungsschritte...")
-                                    .foregroundColor(.gray.opacity(0.6))
+                                Text("Beschreibe Herkunft oder Verarbeitung...")
+                                    .foregroundColor(.gray.opacity(0.5))
                                     .padding(.top, 8)
                                     .padding(.leading, 5)
                             }
                         }
-                }
-                
-                Section("Zukunft") {
-                    Label("Foto/Video Scan (Coming Soon)", systemImage: "camera.fill")
-                        .foregroundColor(.secondary)
                 }
             }
             .navigationTitle("Neu anlegen")
@@ -76,39 +68,32 @@ struct AddEntryView: View {
         }
     }
     
+    // MARK: - Speichern-Logik
     private func saveEntry() {
-            // 1. Erstellung des Objekts je nach Typ
-            if entryType == "Produkt" {
-                let newProduct = Product(
-                    id: idOrCode,
-                    name: name,
-                    category: category,
-                    dataSource: dataSource
-                )
-                newProduct.beschreibung = description
-                
-                modelContext.insert(newProduct)
-                print("🐟 Produkt '\(name)' lokal erstellt.")
-                
-            } else {
-                let newEntry = LexikonEntry(
-                    code: idOrCode,
-                    name: name,
-                    kategorie: category,
-                    beschreibung: description
-                )
-                
-                modelContext.insert(newEntry)
-                print("📚 Lexikon-Eintrag '\(name)' lokal erstellt.")
-            }
-            
-            // 2. Den „Tresor“ abschließen (Speichern)
-            do {
-                try modelContext.save()
-                print("☁️ Cloud-Sync: Daten erfolgreich zur Synchronisation vorgemerkt.")
-                dismiss()
-            } catch {
-                print("🚨 Fehler beim Speichern: \(error.localizedDescription)")
-            }
+        if entryType == "Produkt" {
+            let newProduct = Product(
+                id: idOrCode,
+                name: name,
+                category: category,
+                dataSource: dataSource
+            )
+            newProduct.beschreibung = description
+            modelContext.insert(newProduct)
+        } else {
+            let newEntry = LexikonEntry(
+                code: idOrCode,
+                name: name,
+                kategorie: category,
+                beschreibung: description
+            )
+            modelContext.insert(newEntry)
+        }
+        
+        do {
+            try modelContext.save()
+            dismiss() // Fenster schließen nach Erfolg
+        } catch {
+            print("🚨 Fehler beim Speichern: \(error.localizedDescription)")
         }
     }
+}

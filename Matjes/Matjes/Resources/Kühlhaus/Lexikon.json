@@ -1,5 +1,23 @@
 [
-    {
+  {
+    "code": "G-MUELLERIN",
+    "name": "Müllerin Art",
+    "kategorie": "Garnituren",
+    "beschreibung": "Klassische Zubereitung für ganze Fische (z.B. Forelle). Der Fisch wird gesäuert, gesalzen, in Mehl gewendet (meliert) und in schäumender Butter goldbraun gebraten. Serviert mit Zitronenscheiben und Petersilie."
+  },
+  {
+    "code": "G-COLBERT",
+    "name": "Colbert",
+    "kategorie": "Garnituren",
+    "beschreibung": "Benannt nach dem Minister Ludwigs XIV. Meist für Seezunge oder Fischfilets. Der Fisch wird paniert, frittiert und mit einer speziellen Colbert-Butter (Maître d’hôtel-Butter mit Estragon und Fleischextrakt) gefüllt oder serviert."
+  },
+  {
+    "code": "G-BORDELAISE",
+    "name": "Bordelaisert Art",
+    "kategorie": "Garnituren",
+    "beschreibung": "Helle Sauce mit Weißwein, Schalotten und Mark. Oft mit einer Kruste aus Semmelbröseln, Kräutern und Butter überbacken."
+  },
+  {
         "code": "T-KOCH",
         "name": "Kochen",
         "kategorie": "Technik",

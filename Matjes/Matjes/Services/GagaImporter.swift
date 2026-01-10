@@ -5,27 +5,32 @@ import SwiftData
 class GagaImporter {
     
     static func importJSON(into context: ModelContext) {
-        // 1. RADIKALKUR: Erst alles löschen
-        try? context.delete(model: Product.self)
-        try? context.delete(model: LexikonEntry.self)
-        
-        // 2. Kurz zwischenspeichern, um Platz zu schaffen
-        try? context.save()
-        
-        print("🧹 Speicher geleert. Starte Neu-Import für GASTRO-GRID...")
-        
-        // 3. Jetzt die Funktionen aufrufen (die jetzt im Scope sind!)
-        importProdukte(into: context)
-        importLexikon(into: context)
-        
-        // 4. Finales Speichern
-        do {
-            try context.save()
-            print("🚀 GASTRO-GRID OMNI: Daten erfolgreich importiert!")
-        } catch {
-            print("🚨 Fehler beim finalen Speichern: \(error)")
+        /* // VORÜBERGEHEND AUSSCHALTEN
+            // 1. SICHERHEITS-CHECK: Sind schon Daten da?
+            let descriptor = FetchDescriptor<Product>()
+            let existingCount = (try? context.fetchCount(descriptor)) ?? 0
+            
+            // Wenn schon Produkte da sind, brechen wir den automatischen Import ab
+            if existingCount > 0 {
+                print("ℹ️ Gastro-Grid: Daten bereits vorhanden (\(existingCount) Einträge). Überspringe Import, um Korrekturen zu schützen.")
+                return
+            }
+            
+            // Nur wenn die Datenbank leer ist, wird gelöscht und neu geladen:
+            print("🧹 Speicher ist leer. Starte Erst-Import für GASTRO-GRID...")*/
+            
+            // 2. Jetzt die Funktionen aufrufen
+            importProdukte(into: context)
+            importLexikon(into: context)
+            
+            // 3. Finales Speichern
+            do {
+                try context.save()
+                print("🚀 GASTRO-GRID OMNI: Erst-Import erfolgreich abgeschlossen!")
+            } catch {
+                print("🚨 Fehler beim finalen Speichern: \(error)")
+            }
         }
-    }
     
     // MARK: - Private Import-Logik
     

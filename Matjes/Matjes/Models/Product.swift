@@ -8,7 +8,8 @@ final class Product: ObservableObject { // <--- Das sorgt für den Refresh
     var category: String = ""
     var dataSource: String = ""
     var beschreibung: String = ""
-    
+    var stockQuantity: Double = 0.0
+    var stockUnit: String = "Stk."
     var allergene: String = ""
     var zusatzstoffe: String = ""
     var kcal: String = ""
